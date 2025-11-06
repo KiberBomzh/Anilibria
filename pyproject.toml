@@ -1,0 +1,17 @@
+[project]
+name = "Anilibria"
+version = "0.1.4"
+description = "Приложение для просмотра аниме с сайта Анилибрии"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "beautifulsoup4>=4.14.2",
+    "pym3u8downloader>=0.1.8",
+    "requests>=2.32.5",
+]
+
+[project.scripts]
+libria = "main:main"
+
+[dependency-groups]
+dev = []
