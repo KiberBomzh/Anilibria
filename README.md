@@ -8,9 +8,10 @@
 ```
 pip install "название файла.whl"
 ```
-или
+
+Или, если через uv, то можно ничего не скачивать, а просто ввести:
 ```
-uv tool install "название файла.whl"
+uv tool install git+https://github.com/KiberBomzh/Anilibria
 ```
 
 ## Использование
