@@ -1,6 +1,10 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "Anilibria"
-version = "0.1.4"
+version = "0.1.5"
 description = "Приложение для просмотра аниме с сайта Анилибрии"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -11,7 +15,13 @@ dependencies = [
 ]
 
 [project.scripts]
-libria = "main:main"
+libria = "anilibria.cli:main"
 
-[dependency-groups]
-dev = []
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.package-data]
+"anilibria" = ["mx.sh"]
+
+[tool.setuptools.data-files]
+"bin" = ["anilibria/mx.sh"]

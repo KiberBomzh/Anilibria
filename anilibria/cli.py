@@ -45,7 +45,7 @@ def play(link, name):
   if args.player == 'mpv':
     subprocess.run(["mpv", "--save-position-on-quit", f"--title={name}", link])
   elif args.player == 'mx':
-    subprocess.run(["mx", link, name])
+    subprocess.run(["mx.sh", link, name])
   else:
     subprocess.run([args.player, link])
 
