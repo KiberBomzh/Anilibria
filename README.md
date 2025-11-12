@@ -8,8 +8,12 @@
 ```
 pip install "название файла.whl"
 ```
+Или:
+```
+pip install https://github.com/KiberBomzh/Anilibria/releases/download/v.0.1.5/anilibria-0.1.5-py3-none-any.whl
+```
 
-Или, если через uv, то можно ничего не скачивать, а просто ввести:
+Или, если через uv:
 ```
 uv tool install git+https://github.com/KiberBomzh/Anilibria
 ```
