@@ -2,15 +2,8 @@
 Простое приложение коммандной строки для просмотра аниме с анилибрии. Работает на Linux и Android(через Termux).
 
 ## Установка
-Скачать последний релиз [Тут](https://github.com/KiberBomzh/Anilibria/releases/latest)
-
-В папке с файлом .whl вписать:
 ```
-pip install "название файла.whl"
-```
-Или:
-```
-pip install https://github.com/KiberBomzh/Anilibria/releases/download/v.0.1.5/anilibria-0.1.5-py3-none-any.whl
+pip install git+https://github.com/KiberBomzh/Anilibria
 ```
 
 Или, если через uv:
