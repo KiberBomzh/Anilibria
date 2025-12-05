@@ -4,24 +4,16 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "Anilibria"
-version = "0.1.5"
+version = "0.1.6"
 description = "Приложение для просмотра аниме с сайта Анилибрии"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "beautifulsoup4>=4.14.2",
+    "prompt-toolkit>=3.0.52",
     "pym3u8downloader>=0.1.8",
     "requests>=2.32.5",
+    "rich>=14.2.0",
 ]
 
 [project.scripts]
 libria = "anilibria.cli:main"
-
-[tool.setuptools]
-include-package-data = true
-
-[tool.setuptools.package-data]
-"anilibria" = ["mx.sh"]
-
-[tool.setuptools.data-files]
-"bin" = ["anilibria/mx.sh"]
