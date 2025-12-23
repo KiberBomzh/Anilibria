@@ -1,8 +1,9 @@
 import platform
 import argparse
 
-from anilibria.functions import input, get_answer, print_option_list, play, download, style_green, get_path, fast, torrent
+from anilibria.functions import input, get_answer, print_option_list, play, download, style_green, get_path, fast, torrent, get_link
 from anilibria.api_anilibria import catalog_request, get_title
+from anilibria.config import config as config
 
 from rich.traceback import install
 install(show_locals=True)
@@ -24,9 +25,20 @@ parser.add_argument("-l", "--latest", action="store_true", help="Открыть 
 parser.add_argument("-f", "--fast", action="store_true", help="Открыть последнее просмотренную серию")
 args = parser.parse_args()
 
+if config:
+    if 'search_results' in config and not args.results:
+        args.results = config['search_results']
+    if 'quality' in config and not args.quality:
+        args.quality = config['quality']
+    if 'player' in config and not args.player:
+        args.player = config['player']
+    if 'download_path' in config and not args.output:
+        args.output = config['download_path']
+
+
 if "android" in platform.release():
     args.quality = "480" if not args.quality else args.quality
-    args.player = "mx" if not args.player else args.player
+    args.player = "next-android" if not args.player else args.player
     args.output = "storage/movies/Anilibria" if not args.output else args.output
 else:
     args.quality = "720" if not args.quality else args.quality
@@ -77,12 +89,7 @@ def main():
 
     # Проверка. Если выбраный тайтл - фильм, запускает просмотр
     if title["type"]["description"] == "Фильм":
-        episodeLink = episodes[0]["hls_" + args.quality]
-        while f"{episodeLink}" == "None":
-            args.quality = input(
-                f"Качество {args.quality} недоступно, введите другое: "
-            )
-            episodeLink = episodes[0]["hls_" + args.quality]
+        episodeLink = get_link(episodes, args.quality)
         
         if args.download:
             download(
@@ -112,10 +119,7 @@ def main():
         while len(episodes) < args.episode:
             args.episode = int(input("Слишком большой номер эпизода: "))
         
-        episodeLink = episodes[args.episode - 1]["hls_" + args.quality]
-        while episodeLink is None:
-            args.quality = input(f"Качество {args.quality} недоступно, введите другое: ")
-            episodeLink = episodes[args.episode - 1]["hls_" + args.quality]
+        episodeLink = get_link(episodes, args.quality, args.episode)
         
         if args.download:
             download(

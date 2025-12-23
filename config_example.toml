@@ -1,0 +1,4 @@
+search_results = 10
+quality = "1080"
+player = "vlc"
+download_path = "~/Downloads"

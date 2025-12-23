@@ -67,21 +67,52 @@ def print_option_list(option_list, title = ""):
     for option in option_list:
         print(f"[dim white]{count}[/] {option}")
         count += 1
-    
+
+def get_link(episodes, quality, episode = 1):
+    index = episode - 1
+    episodeLink = episodes[index]["hls_" + quality]
+    while episodeLink is None:
+        quality = input(
+            f"Качество {quality} недоступно, введите другое: "
+        )
+        episodeLink = episodes[index]["hls_" + quality]
+        
+    end_index = episodeLink.find('?')
+    return episodeLink[:end_index]
+
 
 def play(link, name, player):
     if player == "mpv":
         subprocess.run(["mpv", "--save-position-on-quit", f"--title={name}", link])
-    elif player == "mx":
-        command = (
-            "am start " +
-                "-n com.mxtech.videoplayer.pro/.ActivityScreen " +
-                "-a android.intent.action.VIEW " +
-                f'-d "{link}" ' +
-                f'-e "title"  "{name}" ' +
+    elif player == "vlc":
+        subprocess.run(["vlc", link])
+        
+    elif player == "next-android":
+        subprocess.run(f"""
+            am start \
+                -n dev.anilbeesetti.nextplayer/.feature.player.PlayerActivity \
+                -a android.intent.action.VIEW \
+                -d "{link}" \
+                -e "title"  "{name}" \
             "exit"
-        )
-        subprocess.run(command, shell = True)
+        """, shell = True)
+    elif player == "mx-android":
+        subprocess.run(f"""
+            am start \
+                -n com.mxtech.videoplayer.pro/.ActivityScreen \
+                -a android.intent.action.VIEW \
+                -d "{link}" \
+                -e "title"  "{name}" \
+            "exit"
+        """, shell = True)
+    elif player == "vlc-android":
+        subprocess.run(f"""
+            am start \
+                -n org.videolan.vlc/.StartActivity \
+                -a android.intent.action.VIEW \
+                -d "{link}" \
+            "exit"
+        """, shell = True)
     else:
         subprocess.run([player, link])
 
