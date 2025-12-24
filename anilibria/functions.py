@@ -86,33 +86,36 @@ def play(link, name, player):
         subprocess.run(["mpv", "--save-position-on-quit", f"--title={name}", link])
     elif player == "vlc":
         subprocess.run(["vlc", link])
+    
+    elif 'android' in player:
+        action = 'android.intent.action.VIEW'
         
-    elif player == "next-android":
+        match player:
+            case 'next-android':
+                base = 'dev.anilbeesetti.nextplayer'
+                activity = 'feature.player.PlayerActivity'
+            case 'mx-android-pro':
+                base = 'com.mxtech.videoplayer.pro'
+                activity = 'ActivityScreen'
+            case 'mx-android':
+                base = 'com.mxtech.videoplayer.ad'
+                activity = 'ActivityScreen'
+            case 'vlc-android':
+                base = 'org.videolan.vlc'
+                activity = 'StartActivity'
+            case _:
+                base = ''
+                activity = ''
+    
         subprocess.run(f"""
             am start \
-                -n dev.anilbeesetti.nextplayer/.feature.player.PlayerActivity \
-                -a android.intent.action.VIEW \
+                -n {base}/.{activity} \
+                -a {action} \
                 -d "{link}" \
-                -e "title"  "{name}" \
+                -e "title"  "{name}"
             "exit"
         """, shell = True)
-    elif player == "mx-android":
-        subprocess.run(f"""
-            am start \
-                -n com.mxtech.videoplayer.pro/.ActivityScreen \
-                -a android.intent.action.VIEW \
-                -d "{link}" \
-                -e "title"  "{name}" \
-            "exit"
-        """, shell = True)
-    elif player == "vlc-android":
-        subprocess.run(f"""
-            am start \
-                -n org.videolan.vlc/.StartActivity \
-                -a android.intent.action.VIEW \
-                -d "{link}" \
-            "exit"
-        """, shell = True)
+    
     else:
         subprocess.run([player, link])
 
