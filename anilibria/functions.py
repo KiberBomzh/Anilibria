@@ -77,8 +77,7 @@ def get_link(episodes, quality, episode = 1):
         )
         episodeLink = episodes[index]["hls_" + quality]
         
-    end_index = episodeLink.find('?')
-    return episodeLink[:end_index]
+    return episodeLink
 
 
 def play(link, name, player):
