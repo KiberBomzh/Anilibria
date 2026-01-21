@@ -58,7 +58,7 @@ def main():
         results = catalog_request(args.search, args.results)
         while not results:
             args.search = input("Ничего не найдено (⊙_⊙)\nВведите новый запрос: ")
-            results = catalog_request()
+            results = catalog_request(args.search, args.results)
 
         # Отрисовка списка результатов
         option_list = []
